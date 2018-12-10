@@ -8,11 +8,11 @@ export default class Order extends React.PureComponent {
   }
 
   render() {
-    const { order, userInfo } = this.props
+    const { order } = this.props
     return (
       <div>
         <h2>Order: {order.id}</h2>
-        <div>Placed to: <strong>{order.shopName}</strong></div>
+        <div>From: <strong>{order.userInfo.name}</strong></div>
         <div>Items ordered:</div>
         {this.renderItems(order.items)}
         <OrderAction order={order} />
@@ -23,7 +23,7 @@ export default class Order extends React.PureComponent {
   renderItems(items) {
     if (items.length === 0) {
       return (
-        <div>No items in this order. Seems like a waste of money to me...</div>
+        <div>No items in this order. Free money for us!</div>
       )
     }
     return (

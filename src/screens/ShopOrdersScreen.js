@@ -3,7 +3,7 @@ import { arrayOf } from 'prop-types'
 import OrderSchema from '../schemas/OrderSchema'
 import Order from '../components/Order'
 
-export default class MyOrdersScreen extends React.PureComponent {
+export default class ShopOrdersScreen extends React.PureComponent {
   static propTypes = {
     orders: arrayOf(OrderSchema).isRequired,
   }

@@ -23,23 +23,25 @@ export default class OrderAction extends React.PureComponent {
     if (status === ORDER_STATE.PLACED) {
       return (
         <div>
-          <div>Waiting to hear back from the shop. Sit tight.</div>
-          <button onClick={this.cancelOrder}>
-            Cancel order
+          <button onClick={this.acceptOrder}>
+            Accept order
+          </button>
+          <button onClick={this.rejectOrder}>
+            Reject order
           </button>
         </div>
       )
     }
 
-    if (status === ORDER_STATE.REJECTED) {
+    if (status === ORDER_STATE.CANCELLED) {
       return (
-        <div>The shop rejected the order. Bummer.</div>
+        <div>The customer cancelled the order.</div>
       )
     }
 
     if (status === ORDER_STATE.ACCEPTED) {
       return (
-        <div>The shop is preparing your delivery! Sit tight.</div>
+        <div>Time to make an offer to the delivery drivers!</div>
       )
     }
 
@@ -55,15 +57,21 @@ export default class OrderAction extends React.PureComponent {
     }
   }
 
-  cancelOrder = () => {
+  acceptOrder = () => {
     const { order } = this.props
 
-    updateOrder(order, ORDER_STATE.CANCELLED)
+    updateOrder(order, ORDER_STATE.ACCEPTED)
   }
 
-  confirmDelivery = () => {
+  rejectOrder = () => {
     const { order } = this.props
 
-    updateOrder(order, ORDER_STATE.DELIVERED)
+    updateOrder(order, ORDER_STATE.REJECTED)
+  }
+
+  sendOutDelivery = () => {
+    const { order } = this.props
+
+    updateOrder(order, ORDER_STATE.OUT_FOR_DELIVERY)
   }
 }
