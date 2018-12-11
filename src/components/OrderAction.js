@@ -1,10 +1,14 @@
 import React from 'react'
+import { arrayOf } from 'prop-types'
 import { ORDER_STATE } from '../constants'
-import { updateOrder } from '../events'
+import { updateOrder, createOffer } from '../events'
 import OrderSchema from '../schemas/OrderSchema'
+import DriverSchema from '../schemas/DriverSchema'
+import DriversOffer from './DriversOffer'
 
 export default class OrderAction extends React.PureComponent {
   static propTypes = {
+    drivers: arrayOf(DriverSchema).isRequired,
     order: OrderSchema.isRequired,
   }
 
@@ -41,7 +45,10 @@ export default class OrderAction extends React.PureComponent {
 
     if (status === ORDER_STATE.ACCEPTED) {
       return (
-        <div>Time to make an offer to the delivery drivers!</div>
+        <div>
+          <div>Offers have been made to the delivery drivers!</div>
+          <DriversOffer orderId={this.props.order.id} />
+        </div>
       )
     }
 
@@ -58,9 +65,13 @@ export default class OrderAction extends React.PureComponent {
   }
 
   acceptOrder = () => {
-    const { order } = this.props
+    const { order, drivers } = this.props
 
     updateOrder(order, ORDER_STATE.ACCEPTED)
+
+    drivers.forEach(driver => {
+      createOffer(order.id, driver)
+    })
   }
 
   rejectOrder = () => {

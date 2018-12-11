@@ -1,10 +1,12 @@
 import React from 'react'
 import { arrayOf } from 'prop-types'
+import DriverSchema from '../schemas/DriverSchema'
 import OrderSchema from '../schemas/OrderSchema'
 import Order from '../components/Order'
 
 export default class ShopOrdersScreen extends React.PureComponent {
   static propTypes = {
+    drivers: arrayOf(DriverSchema).isRequired,
     orders: arrayOf(OrderSchema).isRequired,
   }
 
@@ -17,7 +19,7 @@ export default class ShopOrdersScreen extends React.PureComponent {
   }
 
   renderOrders() {
-    const { orders } = this.props
+    const { drivers, orders } = this.props
 
     if (orders.length === 0) {
       return (
@@ -29,7 +31,7 @@ export default class ShopOrdersScreen extends React.PureComponent {
       <div>
         <h1>Orders</h1>
         {orders.map(order => (
-          <Order order={order} />
+          <Order drivers={drivers} order={order} />
         ))}
       </div>
     )

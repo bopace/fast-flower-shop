@@ -1,0 +1,24 @@
+import axios from 'axios'
+import uuid from 'uuid/v4'
+
+export default function updateOffer(offer, newState) {
+  const updatedOffer = {
+    ...offer,
+    state: newState
+  }
+
+  const updateOfferEvent = {
+    type: 'event',
+    domain: 'order',
+    id: uuid(),
+    attrs: {
+      offer: updatedOffer
+    }
+  }
+
+  // add twilio code
+
+  axios.post('/api/events', {
+    event: updateOfferEvent,
+  })
+}
