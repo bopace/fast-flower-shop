@@ -1,5 +1,7 @@
 import React from 'react'
 import { string } from 'prop-types'
+import OfferAction from './OfferAction'
+import { OFFER_STATE } from '../constants'
 
 export default class DriversOffer extends React.PureComponent {
   static propTypes = {
@@ -11,7 +13,7 @@ export default class DriversOffer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.getOffersFromDb()
+    this.interval = setInterval(() => this.getOffersFromDb(), 500)
   }
 
   render() {
@@ -42,14 +44,15 @@ export default class DriversOffer extends React.PureComponent {
       <div>
         <br />
         <div>Driver: <strong>{offer.driverName}</strong></div>
-        <div>Status: <strong>{offer.state}</strong></div>
-        {this.renderOfferAction()}
+        <OfferAction offer={offer} />
       </div>
     )
   }
 
-  renderOfferAction() {
-    return <div>coming soon</div>
+  renderOfferAction(offer) {
+    if (offer.state === OFFER_STATE.PLACED) {
+
+    }
   }
 
   getOffersFromDb = () => {

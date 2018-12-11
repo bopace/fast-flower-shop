@@ -9,7 +9,7 @@ export default function updateOffer(offer, newState) {
 
   const updateOfferEvent = {
     type: 'event',
-    domain: 'order',
+    domain: 'offer',
     id: uuid(),
     attrs: {
       offer: updatedOffer
