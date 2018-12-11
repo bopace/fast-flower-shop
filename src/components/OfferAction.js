@@ -1,4 +1,5 @@
 import React from 'react'
+import { func } from 'prop-types'
 import { OFFER_STATE } from '../constants'
 import { updateOffer } from '../events'
 import OfferSchema from '../schemas/OfferSchema'
@@ -6,6 +7,7 @@ import OfferSchema from '../schemas/OfferSchema'
 export default class OfferAction extends React.PureComponent {
   static propTypes = {
     offer: OfferSchema.isRequired,
+    selectAnOffer: func.isRequired,
   }
 
   render() {
@@ -67,9 +69,12 @@ export default class OfferAction extends React.PureComponent {
   }
 
   confirmOffer = () => {
-    const { offer } = this.props
+    const { offer, selectAnOffer } = this.props
 
     updateOffer(offer, OFFER_STATE.CONFIRMED)
+
+    // reject all other offers
+    selectAnOffer(offer.id)
   }
 
   orderPrepared = () => {

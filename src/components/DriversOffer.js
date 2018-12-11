@@ -1,6 +1,7 @@
 import React from 'react'
 import { string } from 'prop-types'
 import OfferAction from './OfferAction'
+import { updateOffer } from '../events'
 import { OFFER_STATE } from '../constants'
 
 export default class DriversOffer extends React.PureComponent {
@@ -44,7 +45,7 @@ export default class DriversOffer extends React.PureComponent {
       <div>
         <br />
         <div>Driver: <strong>{offer.driverName}</strong></div>
-        <OfferAction offer={offer} />
+        <OfferAction offer={offer} selectAnOffer={this.selectAnOffer} />
       </div>
     )
   }
@@ -62,5 +63,14 @@ export default class DriversOffer extends React.PureComponent {
       .then(res => {
         this.setState({ offers: res.data })
       })
+  }
+
+  selectAnOffer = offerId => {
+    const { offers } = this.state
+    offers.forEach(offer => {
+      if (offer.id !== offerId) {
+        updateOffer(offer, OFFER_STATE.REVOKED)
+      }
+    })
   }
 }
