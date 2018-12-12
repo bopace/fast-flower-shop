@@ -1,12 +1,15 @@
 import React from 'react'
+import axios from 'axios'
 import { func } from 'prop-types'
 import { OFFER_STATE } from '../constants'
-import { updateOffer } from '../events'
+import { createDelivery, updateOffer } from '../events'
 import OfferSchema from '../schemas/OfferSchema'
+import OrderSchema from '../schemas/OrderSchema'
 
 export default class OfferAction extends React.PureComponent {
   static propTypes = {
     offer: OfferSchema.isRequired,
+    order: OrderSchema.isRequired,
     selectAnOffer: func.isRequired,
   }
 
@@ -78,6 +81,14 @@ export default class OfferAction extends React.PureComponent {
   }
 
   orderPrepared = () => {
+    const { offer, order } = this.props
 
+
+    createDelivery(offer, order).then(() => {
+      // delete all offers related to this order
+      axios.post('/api/deleteOffers', {
+        orderId: order.id,
+      })
+    })
   }
 }

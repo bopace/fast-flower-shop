@@ -1,12 +1,12 @@
 import React from 'react'
-import { string } from 'prop-types'
 import OfferAction from './OfferAction'
 import { updateOffer } from '../events'
 import { OFFER_STATE } from '../constants'
+import OrderSchema from '../schemas/OrderSchema'
 
 export default class DriversOffer extends React.PureComponent {
   static propTypes = {
-    orderId: string.isRequired,
+    order: OrderSchema.isRequired,
   }
 
   state = {
@@ -26,6 +26,7 @@ export default class DriversOffer extends React.PureComponent {
   }
 
   renderOffers() {
+    const { order } = this.props
     const { offers } = this.state
     if (offers.length === 0) {
       return (
@@ -35,17 +36,17 @@ export default class DriversOffer extends React.PureComponent {
 
     return (
       <div>
-        {offers.map(offer => this.renderOffer(offer))}
+        {offers.map(offer => this.renderOffer(offer, order))}
       </div>
     )
   }
 
-  renderOffer(offer) {
+  renderOffer(offer, order) {
     return (
       <div>
         <br />
         <div>Driver: <strong>{offer.driverName}</strong></div>
-        <OfferAction offer={offer} selectAnOffer={this.selectAnOffer} />
+        <OfferAction offer={offer} order={order} selectAnOffer={this.selectAnOffer} />
       </div>
     )
   }
@@ -57,8 +58,8 @@ export default class DriversOffer extends React.PureComponent {
   }
 
   getOffersFromDb = () => {
-    const { orderId } = this.props
-    fetch(`/api/getOffers/${orderId}`)
+    const { order } = this.props
+    fetch(`/api/getOffers/${order.id}`)
       .then(data => data.json())
       .then(res => {
         this.setState({ offers: res.data })

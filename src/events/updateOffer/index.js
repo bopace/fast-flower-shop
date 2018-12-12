@@ -16,8 +16,6 @@ export default function updateOffer(offer, newState) {
     }
   }
 
-  // add twilio code
-
   axios.post('/api/events', {
     event: updateOfferEvent,
   })

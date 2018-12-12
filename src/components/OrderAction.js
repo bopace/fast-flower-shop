@@ -47,7 +47,7 @@ export default class OrderAction extends React.PureComponent {
       return (
         <div>
           <div>Offers have been made to the delivery drivers!</div>
-          <DriversOffer orderId={this.props.order.id} />
+          <DriversOffer order={this.props.order} />
         </div>
       )
     }

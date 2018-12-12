@@ -1,3 +1,5 @@
+export { default as createDelivery } from './createDelivery'
 export { default as createOffer } from './createOffer'
+export { default as updateDelivery } from './updateDelivery'
 export { default as updateOffer } from './updateOffer'
 export { default as updateOrder } from './updateOrder'
