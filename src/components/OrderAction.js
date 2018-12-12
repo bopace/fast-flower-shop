@@ -1,7 +1,7 @@
 import React from 'react'
 import { arrayOf } from 'prop-types'
-import { ORDER_STATE } from '../constants'
-import { updateOrder, createOffer } from '../events'
+import { ORDER_STATE, DELIVERY_STATE } from '../constants'
+import { updateOrder, createOffer, updateDelivery } from '../events'
 import OrderSchema from '../schemas/OrderSchema'
 import DriverSchema from '../schemas/DriverSchema'
 import DriversOffer from './DriversOffer'
@@ -52,6 +52,17 @@ export default class OrderAction extends React.PureComponent {
       )
     }
 
+    if (status === ORDER_STATE.PREPARED) {
+      return (
+        <div>
+          <div>The order is ready for delivery! Wait for the driver to come pick up the order.</div>
+          <button onClick={this.confirmPickup}>
+            Confirm pickup
+          </button>
+        </div>
+      )
+    }
+
     if (status === ORDER_STATE.OUT_FOR_DELIVERY) {
       return (
         <div>
@@ -80,9 +91,10 @@ export default class OrderAction extends React.PureComponent {
     updateOrder(order, ORDER_STATE.REJECTED)
   }
 
-  sendOutDelivery = () => {
+  confirmPickup = () => {
     const { order } = this.props
 
+    updateDelivery(order.id, DELIVERY_STATE.PICKED_UP)
     updateOrder(order, ORDER_STATE.OUT_FOR_DELIVERY)
   }
 }

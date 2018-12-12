@@ -1,8 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import { func } from 'prop-types'
-import { OFFER_STATE } from '../constants'
-import { createDelivery, updateOffer } from '../events'
+import { OFFER_STATE, ORDER_STATE } from '../constants'
+import { createDelivery, updateOffer, updateOrder } from '../events'
 import OfferSchema from '../schemas/OfferSchema'
 import OrderSchema from '../schemas/OrderSchema'
 
@@ -83,6 +83,7 @@ export default class OfferAction extends React.PureComponent {
   orderPrepared = () => {
     const { offer, order } = this.props
 
+    updateOrder(order, ORDER_STATE.PREPARED)
 
     createDelivery(offer, order).then(() => {
       // delete all offers related to this order
