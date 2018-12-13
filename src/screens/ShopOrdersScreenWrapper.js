@@ -3,23 +3,36 @@ import ShopOrdersScreen from './ShopOrdersScreen'
 
 export default class ShopOrdersScreenWrapper extends React.PureComponent {
   state = {
+    deliveries: [],
     drivers: [],
     orders: [],
   }
 
   componentDidMount() {
     this.getDriversFromDb()
-    this.interval = setInterval(() => this.getOrdersFromDb(), 500)
+    this.interval = setInterval(() => {
+      this.getDeliveriesFromDb()
+      this.getOrdersFromDb()
+    }, 500)
   }
 
   render() {
-    const { drivers, orders } = this.state
+    const { deliveries, drivers, orders } = this.state
     return (
       <ShopOrdersScreen
+        deliveries={deliveries}
         drivers={drivers}
         orders={orders}
       />
     )
+  }
+
+  getDeliveriesFromDb = () => {
+    fetch('/api/getDeliveries')
+      .then(data => data.json())
+      .then(res => {
+        this.setState({ deliveries: res.data })
+      })
   }
 
   getDriversFromDb = () => {

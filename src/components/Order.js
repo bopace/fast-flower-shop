@@ -1,17 +1,23 @@
 import React from 'react'
 import { arrayOf } from 'prop-types'
-import OrderSchema from '../schemas/OrderSchema'
+import DeliverySchema from '../schemas/DeliverySchema'
 import DriverSchema from '../schemas/DriverSchema'
+import OrderSchema from '../schemas/OrderSchema'
 import OrderAction from './OrderAction'
 
 export default class Order extends React.PureComponent {
   static propTypes = {
+    delivery: DeliverySchema,
     drivers: arrayOf(DriverSchema).isRequired,
     order: OrderSchema.isRequired,
   }
 
+  static defaultProps = {
+    delivery: null,
+  }
+
   render() {
-    const { drivers, order } = this.props
+    const { delivery, drivers, order } = this.props
     return (
       <div>
         <h2>Order: {order.id}</h2>
@@ -19,7 +25,7 @@ export default class Order extends React.PureComponent {
         <div>Items ordered:</div>
         {this.renderItems(order.items)}
         <div>Special delivery instructions: <strong>{order.specialInstructions}</strong></div>
-        <OrderAction drivers={drivers} order={order} />
+        <OrderAction delivery={delivery} drivers={drivers} order={order} />
       </div>
     )
   }

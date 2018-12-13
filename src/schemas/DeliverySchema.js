@@ -1,15 +1,17 @@
 import { PropTypes } from 'react-schema'
 
-const { shape, string } = PropTypes
+const { bool, shape, string } = PropTypes
 
 export default shape({
-  id: string.isRequired,
-  state: string.isRequired,
-  shopName: string.isRequired,
-  shopAddress: string.isRequired,
-  orderId: string.isRequired,
-  driverName: string.isRequired,
-  driverCellNumber: string.isRequired,
-  customerCellNumber: string.isRequired,
   customerAddress: string.isRequired,
+  customerCellNumber: string.isRequired,
+  customerConfirmedDelivery: bool.isRequired,
+  driverCellNumber: string.isRequired,
+  driverConfirmedDelivery: bool.isRequired,
+  driverName: string.isRequired,
+  id: string.isRequired,
+  orderId: string.isRequired,
+  shopAddress: string.isRequired,
+  shopName: string.isRequired,
+  state: string.isRequired,
 })

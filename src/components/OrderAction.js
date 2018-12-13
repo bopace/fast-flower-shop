@@ -2,14 +2,20 @@ import React from 'react'
 import { arrayOf } from 'prop-types'
 import { ORDER_STATE, DELIVERY_STATE } from '../constants'
 import { updateOrder, createOffer, updateDelivery } from '../events'
-import OrderSchema from '../schemas/OrderSchema'
+import DeliverySchema from '../schemas/DeliverySchema'
 import DriverSchema from '../schemas/DriverSchema'
+import OrderSchema from '../schemas/OrderSchema'
 import DriversOffer from './DriversOffer'
 
 export default class OrderAction extends React.PureComponent {
   static propTypes = {
+    delivery: DeliverySchema,
     drivers: arrayOf(DriverSchema).isRequired,
     order: OrderSchema.isRequired,
+  }
+
+  static defaultProps = {
+    delivery: null,
   }
 
   render() {
@@ -66,13 +72,38 @@ export default class OrderAction extends React.PureComponent {
     if (status === ORDER_STATE.OUT_FOR_DELIVERY) {
       return (
         <div>
-          <div>Your flowers will be delivered shortly!</div>
-          <button onClick={this.confirmDelivery}>
-            My flowers have been delivered!
-          </button>
+          <div>The delivery is out!</div>
+          {this.renderDriverDeliveryStatus()}
+          {this.renderCustomerDeliveryStatus()}
         </div>
       )
     }
+  }
+
+  renderDriverDeliveryStatus() {
+    const { delivery } = this.props
+    if (delivery && delivery.driverConfirmedDelivery) {
+      return (
+        <div>The driver has made the delivery!</div>
+      )
+    }
+
+    return (
+      <div>The driver is on the way to make the delivery.</div>
+    )
+  }
+
+  renderCustomerDeliveryStatus() {
+    const { delivery } = this.props
+    if (delivery && delivery.customerConfirmedDelivery) {
+      return (
+        <div>The customer has received the delivery!</div>
+      )
+    }
+
+    return (
+      <div>The customer is awaiting the delivery.</div>
+    )
   }
 
   acceptOrder = () => {

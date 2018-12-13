@@ -1,11 +1,13 @@
 import React from 'react'
 import { arrayOf } from 'prop-types'
+import DeliverySchema from '../schemas/DeliverySchema'
 import DriverSchema from '../schemas/DriverSchema'
 import OrderSchema from '../schemas/OrderSchema'
 import Order from '../components/Order'
 
 export default class ShopOrdersScreen extends React.PureComponent {
   static propTypes = {
+    deliveries: arrayOf(DeliverySchema).isRequired,
     drivers: arrayOf(DriverSchema).isRequired,
     orders: arrayOf(OrderSchema).isRequired,
   }
@@ -19,7 +21,7 @@ export default class ShopOrdersScreen extends React.PureComponent {
   }
 
   renderOrders() {
-    const { drivers, orders } = this.props
+    const { deliveries, drivers, orders } = this.props
 
     if (orders.length === 0) {
       return (
@@ -30,9 +32,19 @@ export default class ShopOrdersScreen extends React.PureComponent {
     return (
       <div>
         <h1>Orders</h1>
-        {orders.map(order => (
-          <Order drivers={drivers} order={order} />
-        ))}
+        {orders.map(order => {
+          const delivery = deliveries.find(del => {
+            return del.orderId === order.id
+          })
+          return (
+            <Order
+              delivery={delivery}
+              drivers={drivers}
+              order={order}
+            />
+          )
+        }
+        )}
       </div>
     )
   }

@@ -9,15 +9,17 @@ export default function createDelivery(offer, order) {
     id: uuid(),
     attrs: {
       delivery: {
-        id: uuid(),
-        state: DELIVERY_STATE.PREPARED,
-        shopName: 'Bud\'s Flowers',
-        shopAddress: '509 E 300 S, Salt Lake City, UT 84102',
-        orderId: offer.orderId,
-        driverName: offer.driverName,
-        driverCellNumber: offer.driverCellNumber,
-        customerCellNumber: order.userInfo.cellNumber,
         customerAddress: order.userInfo.address,
+        customerCellNumber: order.userInfo.cellNumber,
+        customerConfirmedDelivery: false,
+        driverCellNumber: offer.driverCellNumber,
+        driverConfirmedDelivery: false,
+        driverName: offer.driverName,
+        id: uuid(),
+        orderId: offer.orderId,
+        shopAddress: '509 E 300 S, Salt Lake City, UT 84102',
+        shopName: 'Bud\'s Flowers',
+        state: DELIVERY_STATE.PREPARED,
       }
     }
   }
