@@ -69,7 +69,7 @@ export default class OrderAction extends React.PureComponent {
       )
     }
 
-    if (status === ORDER_STATE.OUT_FOR_DELIVERY) {
+    if (status === ORDER_STATE.OUT_FOR_DELIVERY || status === ORDER_STATE.DELIVERED) {
       return (
         <div>
           <div>The delivery is out!</div>
